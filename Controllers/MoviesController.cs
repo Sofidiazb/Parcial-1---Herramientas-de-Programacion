@@ -10,16 +10,16 @@ using Parcial1.Models;
 
 namespace Parcial1.Controllers
 {
-    public class CursosController : Controller
+    public class MoviesController : Controller
     {
         private readonly CursoContext _context;
 
-        public CursosController(CursoContext context)
+        public MoviesController(CursoContext context)
         {
             _context = context;
         }
 
-        // GET: Cursos
+        // GET: Movies
         public async Task<IActionResult> Index()
         {
               return _context.Curso != null ? 
@@ -27,7 +27,7 @@ namespace Parcial1.Controllers
                           Problem("Entity set 'CursoContext.Curso'  is null.");
         }
 
-        // GET: Cursos/Details/5
+        // GET: Movies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Curso == null)
@@ -45,18 +45,18 @@ namespace Parcial1.Controllers
             return View(curso);
         }
 
-        // GET: Cursos/Create
+        // GET: Movies/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Cursos/Create
+        // POST: Movies/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Duracion,Precio")] Curso curso)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Categoria,Duracion,Precio")] Curso curso)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +67,7 @@ namespace Parcial1.Controllers
             return View(curso);
         }
 
-        // GET: Cursos/Edit/5
+        // GET: Movies/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Curso == null)
@@ -83,12 +83,12 @@ namespace Parcial1.Controllers
             return View(curso);
         }
 
-        // POST: Cursos/Edit/5
+        // POST: Movies/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Duracion,Precio")] Curso curso)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Categoria,Duracion,Precio")] Curso curso)
         {
             if (id != curso.Id)
             {
@@ -118,7 +118,7 @@ namespace Parcial1.Controllers
             return View(curso);
         }
 
-        // GET: Cursos/Delete/5
+        // GET: Movies/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Curso == null)
@@ -136,7 +136,7 @@ namespace Parcial1.Controllers
             return View(curso);
         }
 
-        // POST: Cursos/Delete/5
+        // POST: Movies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

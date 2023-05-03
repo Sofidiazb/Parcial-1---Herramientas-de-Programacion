@@ -10,8 +10,8 @@ using Parcial1.Data;
 namespace Parcial1.Migrations
 {
     [DbContext(typeof(CursoContext))]
-    [Migration("20230428210004_Initial")]
-    partial class Initial
+    [Migration("20230503005353_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,9 @@ namespace Parcial1.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Categoria")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Duracion")
@@ -39,6 +42,35 @@ namespace Parcial1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Curso");
+                });
+
+            modelBuilder.Entity("Parcial1.Models.Estudiante", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ApellidoAlumno")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CursoElegido")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("CursoId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Dni")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("NombreAlumno")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Estudiante");
                 });
 #pragma warning restore 612, 618
         }

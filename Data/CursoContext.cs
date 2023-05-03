@@ -15,5 +15,7 @@ namespace Parcial1.Data
         }
 
         public DbSet<Parcial1.Models.Curso> Curso { get; set; } = default!;
+
+        public DbSet<Parcial1.Models.Estudiante> Estudiante { get; set; } = default!;
     }
 }
