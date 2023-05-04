@@ -16,6 +16,21 @@ namespace Parcial1.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
 
+            modelBuilder.Entity("CursoEstudiante", b =>
+                {
+                    b.Property<int>("CursosId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("EstudiantesId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("CursosId", "EstudiantesId");
+
+                    b.HasIndex("EstudiantesId");
+
+                    b.ToTable("CursoEstudiante");
+                });
+
             modelBuilder.Entity("Parcial1.Models.Curso", b =>
                 {
                     b.Property<int>("Id")
@@ -55,9 +70,6 @@ namespace Parcial1.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("CursoId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("Dni")
                         .HasColumnType("INTEGER");
 
@@ -68,6 +80,21 @@ namespace Parcial1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Estudiante");
+                });
+
+            modelBuilder.Entity("CursoEstudiante", b =>
+                {
+                    b.HasOne("Parcial1.Models.Curso", null)
+                        .WithMany()
+                        .HasForeignKey("CursosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Parcial1.Models.Estudiante", null)
+                        .WithMany()
+                        .HasForeignKey("EstudiantesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -32,7 +32,6 @@ namespace Parcial1.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CursoId = table.Column<int>(type: "INTEGER", nullable: false),
                     NombreAlumno = table.Column<string>(type: "TEXT", nullable: false),
                     ApellidoAlumno = table.Column<string>(type: "TEXT", nullable: false),
                     Dni = table.Column<int>(type: "INTEGER", nullable: false),
@@ -42,11 +41,43 @@ namespace Parcial1.Migrations
                 {
                     table.PrimaryKey("PK_Estudiante", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "CursoEstudiante",
+                columns: table => new
+                {
+                    CursosId = table.Column<int>(type: "INTEGER", nullable: false),
+                    EstudiantesId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CursoEstudiante", x => new { x.CursosId, x.EstudiantesId });
+                    table.ForeignKey(
+                        name: "FK_CursoEstudiante_Curso_CursosId",
+                        column: x => x.CursosId,
+                        principalTable: "Curso",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CursoEstudiante_Estudiante_EstudiantesId",
+                        column: x => x.EstudiantesId,
+                        principalTable: "Estudiante",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CursoEstudiante_EstudiantesId",
+                table: "CursoEstudiante",
+                column: "EstudiantesId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CursoEstudiante");
+
             migrationBuilder.DropTable(
                 name: "Curso");
 

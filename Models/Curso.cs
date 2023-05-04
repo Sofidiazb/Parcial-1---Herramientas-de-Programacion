@@ -8,5 +8,6 @@ public class Curso
     public TipoCategoria  Categoria { get; set; }
     public string Duracion { get; set; }
     public double Precio { get; set; }
+    public virtual List<Estudiante> Estudiantes { get; set;}
 
 }

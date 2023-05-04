@@ -10,11 +10,11 @@ using Parcial1.Models;
 
 namespace Parcial1.Controllers
 {
-    public class MoviesController : Controller
+    public class CursoController : Controller
     {
         private readonly CursoContext _context;
 
-        public MoviesController(CursoContext context)
+        public CursoController(CursoContext context)
         {
             _context = context;
         }

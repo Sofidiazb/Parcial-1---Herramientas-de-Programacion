@@ -17,5 +17,14 @@ namespace Parcial1.Data
         public DbSet<Parcial1.Models.Curso> Curso { get; set; } = default!;
 
         public DbSet<Parcial1.Models.Estudiante> Estudiante { get; set; } = default!;
+
+        protected override void OnModelCreating (ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Curso>()
+            .HasMany(p => p.Estudiantes)
+            .WithMany(p => p.Cursos)
+            .UsingEntity("CursoEstudiante");
+
+        }
     }
 }

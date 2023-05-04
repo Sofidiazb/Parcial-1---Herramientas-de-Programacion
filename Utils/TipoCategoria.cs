@@ -8,6 +8,5 @@ public enum TipoCategoria
     Programacion,
     BasesDeDatos,
     Idiomas,
-    Datos,
-    SeguridadIT
+    Datos
 }
