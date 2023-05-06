@@ -1,6 +1,6 @@
 using Parcial1.Models;
 
-namespace ViewModels;
+namespace Parcial1.ViewModels;
 
 public class CursoViewModel
 {

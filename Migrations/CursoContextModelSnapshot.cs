@@ -37,9 +37,6 @@ namespace Parcial1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Categoria")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Duracion")
                         .IsRequired()
                         .HasColumnType("TEXT");

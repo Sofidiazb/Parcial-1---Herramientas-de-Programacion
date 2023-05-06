@@ -10,7 +10,7 @@ using Parcial1.Data;
 namespace Parcial1.Migrations
 {
     [DbContext(typeof(CursoContext))]
-    [Migration("20230504012130_InitialCreate")]
+    [Migration("20230506123946_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -38,9 +38,6 @@ namespace Parcial1.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Categoria")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Duracion")

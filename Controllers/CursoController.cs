@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Parcial1.Data;
 using Parcial1.Models;
-using ViewModels;
+using Parcial1.ViewModels;
 
 namespace Parcial1.Controllers
 {
@@ -30,7 +30,7 @@ namespace Parcial1.Controllers
                 query = query.Where(x => x.Nombre.ToLower().Contains(NameFilter.ToLower()));
             }
 
-            var queryR = await query.Include(x => x.Nombre).ToListAsync();
+            var queryR = await query.ToListAsync();
 
             var viewModel = new CursoViewModel();
             viewModel.Cursos = queryR;
@@ -40,13 +40,6 @@ namespace Parcial1.Controllers
                         Problem("Entity set 'CursoContext.Curso'  is null.");
         }
 
-        // GET: Curso
-        public async Task<IActionResult> Index()
-        {
-              return _context.Curso != null ? 
-                          View(await _context.Curso.ToListAsync()) :
-                          Problem("Entity set 'CursoContext.Curso'  is null.");
-        }
         // GET: Curso/Details/5
         public async Task<IActionResult> Details(int? id)
         {
