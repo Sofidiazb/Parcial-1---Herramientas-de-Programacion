@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Parcial1.Data;
 using Parcial1.Models;
+using ViewModels;
 
 namespace Parcial1.Controllers
 {
@@ -19,15 +20,34 @@ namespace Parcial1.Controllers
             _context = context;
         }
 
-        // GET: Movies
+
+    public async Task<IActionResult> Index(string NameFilter)
+        {
+            var query = from curso in _context.Curso select curso;
+
+            if (!string.IsNullOrEmpty(NameFilter))
+            {
+                query = query.Where(x => x.Nombre.ToLower().Contains(NameFilter.ToLower()));
+            }
+
+            var queryR = await query.Include(x => x.Nombre).ToListAsync();
+
+            var viewModel = new CursoViewModel();
+            viewModel.Cursos = queryR;
+
+            return _context.Curso != null ?
+                        View(viewModel) :
+                        Problem("Entity set 'CursoContext.Curso'  is null.");
+        }
+
+        // GET: Curso
         public async Task<IActionResult> Index()
         {
               return _context.Curso != null ? 
                           View(await _context.Curso.ToListAsync()) :
                           Problem("Entity set 'CursoContext.Curso'  is null.");
         }
-
-        // GET: Movies/Details/5
+        // GET: Curso/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Curso == null)
@@ -45,13 +65,13 @@ namespace Parcial1.Controllers
             return View(curso);
         }
 
-        // GET: Movies/Create
+        // GET: Curso/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Movies/Create
+        // POST: Curso/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -67,7 +87,7 @@ namespace Parcial1.Controllers
             return View(curso);
         }
 
-        // GET: Movies/Edit/5
+        // GET: Curso/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Curso == null)
@@ -83,7 +103,7 @@ namespace Parcial1.Controllers
             return View(curso);
         }
 
-        // POST: Movies/Edit/5
+        // POST: Curso/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -118,7 +138,7 @@ namespace Parcial1.Controllers
             return View(curso);
         }
 
-        // GET: Movies/Delete/5
+        // GET: Curso/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Curso == null)
@@ -136,7 +156,7 @@ namespace Parcial1.Controllers
             return View(curso);
         }
 
-        // POST: Movies/Delete/5
+        // POST: Curso/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
