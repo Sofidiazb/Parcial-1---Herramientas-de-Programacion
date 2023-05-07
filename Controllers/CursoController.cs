@@ -27,7 +27,9 @@ namespace Parcial1.Controllers
 
             if (!string.IsNullOrEmpty(NameFilter))
             {
-                query = query.Where(x => x.Nombre.ToLower().Contains(NameFilter.ToLower()));
+                query = query.Where(x => x.Nombre.ToLower().Contains(NameFilter.ToLower())
+                || x.Duracion.ToLower().Contains(NameFilter.ToLower()) 
+                || x.Precio.ToString().Contains(NameFilter));
             }
 
             var queryR = await query.ToListAsync();

@@ -15,6 +15,6 @@ public class Estudiante
 
     [Display(Name = "Curso Elegido")]
     public string CursoElegido { get; set; }
-    public virtual List<Curso> Cursos { get; set; }
+    public virtual List<Curso>? Cursos { get; set; }
 
 }
