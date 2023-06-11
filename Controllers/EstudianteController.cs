@@ -7,36 +7,38 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Parcial1.Data;
 using Parcial1.Models;
+using Parcial1.ViewModels;
+using Parcial1.Services;
 
 namespace Parcial1.Controllers
 {
     public class EstudianteController : Controller
     {
-        private readonly CursoContext _context;
+        private IEstudianteServices _estudianteService;  
+        private ICursoServices _cursoServices;
 
-        public EstudianteController(CursoContext context)
+        public EstudianteController(IEstudianteServices estudianteService, ICursoServices cursoService)
         {
-            _context = context;
+            _estudianteService = estudianteService;
+            //_cursoService = cursoService;
         }
 
         // GET: Estudiante
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-              return _context.Estudiante != null ? 
-                          View(await _context.Estudiante.ToListAsync()) :
-                          Problem("Entity set 'CursoContext.Estudiante'  is null.");
+            var list = _estudianteService.GetAll();
+            return View(list);
         }
 
         // GET: Estudiante/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
-            if (id == null || _context.Estudiante == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var estudiante = await _context.Estudiante
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var estudiante = _estudianteService.GetById(id.Value);
             if (estudiante == null)
             {
                 return NotFound();
@@ -48,6 +50,8 @@ namespace Parcial1.Controllers
         // GET: Estudiante/Create
         public IActionResult Create()
         {
+            //var cursosList  = _cursoServices.GetAll();
+            ViewData["Cursos"] = new SelectList(new List<Curso>(), "Id", "Name");
             return View();
         }
 
@@ -56,30 +60,40 @@ namespace Parcial1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CursoId,NombreAlumno,ApellidoAlumno,Dni,CursoElegido")] Estudiante estudiante)
+        public IActionResult Create([Bind("Id,NombreAlumno,ApellidoAlumno,Dni,CursoIds")] EstudianteCreateViewModel estudianteView)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(estudiante);
-                await _context.SaveChangesAsync();
+                //var cursos = _cursoServices.GetAll().Where(x => estudianteView.CursoIds.Contains(x.Id)).ToList();
+                
+                var estudiante = new Estudiante{
+                    NombreAlumno = estudianteView.NombreAlumno,
+                    ApellidoAlumno = estudianteView.ApellidoAlumno,
+                    Dni = estudianteView.Dni
+                    //Cursos = cursos
+                };
+                
+                _estudianteService.Create(estudiante);
+    
                 return RedirectToAction(nameof(Index));
             }
-            return View(estudiante);
+            return View(estudianteView);
         }
 
         // GET: Estudiante/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
-            if (id == null || _context.Estudiante == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var estudiante = await _context.Estudiante.FindAsync(id);
+            var estudiante = _estudianteService.GetById(id.Value);
             if (estudiante == null)
             {
                 return NotFound();
             }
+            
             return View(estudiante);
         }
 
@@ -90,44 +104,29 @@ namespace Parcial1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CursoId,NombreAlumno,ApellidoAlumno,Dni,CursoElegido")] Estudiante estudiante)
         {
-            if (id != estudiante.Id)
+              if (id != estudiante.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(estudiante);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EstudianteExists(estudiante.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _estudianteService.Update(estudiante);
                 return RedirectToAction(nameof(Index));
             }
+            
             return View(estudiante);
         }
 
         // GET: Estudiante/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Estudiante == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var estudiante = await _context.Estudiante
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var estudiante = _estudianteService.GetById(id.Value);
             if (estudiante == null)
             {
                 return NotFound();
@@ -141,23 +140,18 @@ namespace Parcial1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Estudiante == null)
-            {
-                return Problem("Entity set 'CursoContext.Estudiante'  is null.");
-            }
-            var estudiante = await _context.Estudiante.FindAsync(id);
+            var estudiante = _estudianteService.GetById(id);
             if (estudiante != null)
             {
-                _context.Estudiante.Remove(estudiante);
+                _estudianteService.Delete(estudiante);
             }
-            
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool EstudianteExists(int id)
         {
-          return (_context.Estudiante?.Any(e => e.Id == id)).GetValueOrDefault();
+          return _estudianteService.GetById(id) != null;
         }
     }
-}
+ }
+

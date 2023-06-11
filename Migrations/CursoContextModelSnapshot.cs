@@ -64,7 +64,6 @@ namespace Parcial1.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CursoElegido")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Dni")

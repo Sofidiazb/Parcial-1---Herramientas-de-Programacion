@@ -5,7 +5,7 @@
 namespace Parcial1.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitilCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,7 +34,7 @@ namespace Parcial1.Migrations
                     NombreAlumno = table.Column<string>(type: "TEXT", nullable: false),
                     ApellidoAlumno = table.Column<string>(type: "TEXT", nullable: false),
                     Dni = table.Column<int>(type: "INTEGER", nullable: false),
-                    CursoElegido = table.Column<string>(type: "TEXT", nullable: false)
+                    CursoElegido = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

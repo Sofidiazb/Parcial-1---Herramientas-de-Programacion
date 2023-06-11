@@ -1,20 +1,15 @@
-using System.ComponentModel.DataAnnotations;
+using Parcial1.Models;
 
-namespace Parcial1.Models;
+namespace Parcial1.ViewModels;
 
-public class Estudiante
+public class EstudianteCreateViewModel
 {
     public int Id { get; set; }
-
-    [Display(Name = "Nombre")]
     public string NombreAlumno { get; set; }
-
-    [Display(Name = "Apellido")]
     public string ApellidoAlumno { get; set; }
     public int Dni { get; set; }
-
-    [Display(Name = "Curso Elegido")]
     public string? CursoElegido { get; set; }
     public virtual List<Curso>? Cursos { get; set; }
-
+    public List<int>? CursoIds { get; set; } 
+    public string? NameFilter { get; set; }
 }

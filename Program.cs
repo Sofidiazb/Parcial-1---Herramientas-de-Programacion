@@ -1,12 +1,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Parcial1.Data;
+using Parcial1.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<CursoContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("CursoContext") ?? throw new InvalidOperationException("Connection string 'CursoContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped <IEstudianteServices, EstudianteService>();
+builder.Services.AddScoped <ICursoServices, CursoServices>();
 
 var app = builder.Build();
 

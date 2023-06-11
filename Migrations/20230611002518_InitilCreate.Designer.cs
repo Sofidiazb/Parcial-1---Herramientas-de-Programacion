@@ -10,8 +10,8 @@ using Parcial1.Data;
 namespace Parcial1.Migrations
 {
     [DbContext(typeof(CursoContext))]
-    [Migration("20230506123946_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230611002518_InitilCreate")]
+    partial class InitilCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,7 +67,6 @@ namespace Parcial1.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CursoElegido")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Dni")

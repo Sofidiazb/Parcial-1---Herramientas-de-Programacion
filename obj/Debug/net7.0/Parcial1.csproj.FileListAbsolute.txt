@@ -278,3 +278,12 @@ C:\Users\sofia\OneDrive\Documentos\Parcial1\obj\Debug\net7.0\refint\Parcial1.dll
 C:\Users\sofia\OneDrive\Documentos\Parcial1\obj\Debug\net7.0\Parcial1.pdb
 C:\Users\sofia\OneDrive\Documentos\Parcial1\obj\Debug\net7.0\Parcial1.genruntimeconfig.cache
 C:\Users\sofia\OneDrive\Documentos\Parcial1\obj\Debug\net7.0\ref\Parcial1.dll
+C:\Users\sofia\OneDrive\Documentos\Parcial1\obj\Debug\net7.0\Parcial1.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\sofia\OneDrive\Documentos\Parcial1\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\sofia\OneDrive\Documentos\Parcial1\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\sofia\OneDrive\Documentos\Parcial1\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\sofia\OneDrive\Documentos\Parcial1\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.UI.dll
+C:\Users\sofia\OneDrive\Documentos\Parcial1\bin\Debug\net7.0\Microsoft.Extensions.FileProviders.Embedded.dll
+C:\Users\sofia\OneDrive\Documentos\Parcial1\bin\Debug\net7.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\sofia\OneDrive\Documentos\Parcial1\bin\Debug\net7.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\sofia\OneDrive\Documentos\Parcial1\bin\Debug\net7.0\Microsoft.Extensions.Options.dll

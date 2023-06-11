@@ -8,56 +8,47 @@ using Microsoft.EntityFrameworkCore;
 using Parcial1.Data;
 using Parcial1.Models;
 using Parcial1.ViewModels;
+using Parcial1.Services;
 
 namespace Parcial1.Controllers
 {
     public class CursoController : Controller
     {
-        private readonly CursoContext _context;
+        private readonly ICursoServices _cursoServices;
 
-        public CursoController(CursoContext context)
+        public CursoController(ICursoServices cursoService)
         {
-            _context = context;
+            _cursoServices = cursoService;
         }
 
 
-    public async Task<IActionResult> Index(string NameFilter)
+    public IActionResult Index(string nameFilter)
         {
-            var query = from curso in _context.Curso select curso;
-
-            if (!string.IsNullOrEmpty(NameFilter))
-            {
-                query = query.Where(x => x.Nombre.ToLower().Contains(NameFilter.ToLower())
-                || x.Duracion.ToLower().Contains(NameFilter.ToLower()) 
-                || x.Precio.ToString().Contains(NameFilter));
-            }
-
-            var queryR = await query.ToListAsync();
-
-            var viewModel = new CursoViewModel();
-            viewModel.Cursos = queryR;
-
-            return _context.Curso != null ?
-                        View(viewModel) :
-                        Problem("Entity set 'CursoContext.Curso'  is null.");
+            var model = new CursoViewModel();
+            model.Cursos = _cursoServices.GetAll(nameFilter);
+            return View(model);
         }
 
         // GET: Curso/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
-            if (id == null || _context.Curso == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var curso = await _context.Curso
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var curso = _cursoServices.GetById(id.Value);
             if (curso == null)
             {
                 return NotFound();
             }
 
-            return View(curso);
+            var viewModel = new CursoViewModel();
+            viewModel.Nombre = curso.Nombre;
+            viewModel.Duracion = curso.Duracion;
+            viewModel.Precio = curso.Precio;
+
+            return View(viewModel);
         }
 
         // GET: Curso/Create
@@ -71,12 +62,12 @@ namespace Parcial1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Categoria,Duracion,Precio")] Curso curso)
+        public IActionResult Create([Bind("Id,Nombre,Categoria,Duracion,Precio")] Curso curso)
         {
+        
             if (ModelState.IsValid)
             {
-                _context.Add(curso);
-                await _context.SaveChangesAsync();
+                _cursoServices.Create(curso);
                 return RedirectToAction(nameof(Index));
             }
             return View(curso);
@@ -85,12 +76,12 @@ namespace Parcial1.Controllers
         // GET: Curso/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Curso == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var curso = await _context.Curso.FindAsync(id);
+            var curso = _cursoServices.GetById(id.Value);
             if (curso == null)
             {
                 return NotFound();
@@ -103,7 +94,7 @@ namespace Parcial1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Categoria,Duracion,Precio")] Curso curso)
+        public IActionResult Edit(int id, [Bind("Id,Nombre,Categoria,Duracion,Precio")] Curso curso)
         {
             if (id != curso.Id)
             {
@@ -114,8 +105,7 @@ namespace Parcial1.Controllers
             {
                 try
                 {
-                    _context.Update(curso);
-                    await _context.SaveChangesAsync();
+                    _cursoServices.Update(curso);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -134,15 +124,14 @@ namespace Parcial1.Controllers
         }
 
         // GET: Curso/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
-            if (id == null || _context.Curso == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var curso = await _context.Curso
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var curso = _cursoServices.GetById(id.Value);
             if (curso == null)
             {
                 return NotFound();
@@ -154,25 +143,15 @@ namespace Parcial1.Controllers
         // POST: Curso/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            if (_context.Curso == null)
-            {
-                return Problem("Entity set 'CursoContext.Curso'  is null.");
-            }
-            var curso = await _context.Curso.FindAsync(id);
-            if (curso != null)
-            {
-                _context.Curso.Remove(curso);
-            }
-            
-            await _context.SaveChangesAsync();
+            _cursoServices.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool CursoExists(int id)
         {
-          return (_context.Curso?.Any(e => e.Id == id)).GetValueOrDefault();
+          return _cursoServices.GetById(id) != null;
         }
     }
 }
