@@ -1,5 +1,5 @@
 
-![](https://github.com/Sofidiazb/Parcial-1---Herramientas-de-Programacion/assets/94146059/15e062a8-7253-4492-ad57-54e7fb54a307)
+![](https://github.com/Sofidiazb/Parcial-1---Herramientas-de-Programacion/assets/94146059/aa7f1105-a7cf-468b-bed3-9458f2cc74dd)
 
 <h1 align="center">
 Cursos Online
